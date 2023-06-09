@@ -1,0 +1,33 @@
+import cv2 as cv
+import numpy as np 
+
+def nothing(x): # value of current position of trackbar
+    print(x) # prints
+
+cv.namedWindow('Image') # makes a black image, window
+
+cv.createTrackbar('CP', 'Image', 10, 400, nothing) # Makes a trackbar called CP, on the image we make, b/w values of 40 - 400
+
+switch = 'color/gray'
+cv.createTrackbar(switch, 'Image', 0, 1, nothing) # Makes a trackbar with the name assigned to switch, with the values of 0 - 1 to make a switch Trackbar
+
+while(1):
+    img = cv.imread('CV-Practice-Image.png')
+    pos = cv.getTrackbarPos('CP', 'Image') # gets trackbar posisition with the name CP on the window called Image
+    font = cv.FONT_HERSHEY_SIMPLEX
+    cv.putText(img, str(pos),(50, 150), font, 4, (0, 0, 255)) #makes the text on the screen at location in the tuple
+
+    k = cv.waitKey(1) & 0XFF
+    if k == 27:
+        break
+
+    s = cv.getTrackbarPos(switch, 'Image')
+
+    if s == 0:
+        pass
+    else:
+        img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+
+    img = cv.imshow('Image', img)
+
+cv.destroyAllWindows()
